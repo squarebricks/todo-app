@@ -1,0 +1,50 @@
+<configuration>
+    <appender name="myConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+<!--
+    file appender does not provide logs rotation.
+    logs rotation is the process of creating log files for the history logs based on
+    size or time.
+-->
+    <appender name="myFileAppender" class="ch.qos.logback.core.FileAppender">
+        <file>
+            apache-cassandra-app.log
+        </file>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="myRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>
+            apache-cassandra-app-rolling.log
+        </file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>
+                apache-cassandra-app-rolling-%d{yyyy-MM-dd_HH-mm}.%i.log
+            </fileNamePattern>
+            <maxFileSize>10KB</maxFileSize>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="myConsoleAppender"/>
+        <appender-ref ref="myFileAppender"/>
+        <appender-ref ref="myRollingFileAppender"/>
+    </root>
+
+</configuration>
